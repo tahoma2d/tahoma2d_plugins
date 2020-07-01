@@ -221,7 +221,7 @@ PluginInfo const* plugin_info() {
   static PluginInfo const info(TNZU_PP_STR(PLUGIN_NAME),    // name
                                TNZU_PP_STR(PLUGIN_VENDOR),  // vendor
                                "",                          // note
-                               "http://dwango.co.jp/");     // helpurl
+                               "");     // helpurl
   return &info;
 }
 
