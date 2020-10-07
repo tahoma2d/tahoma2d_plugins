@@ -1,7 +1,10 @@
 *.plugin
 /bin
 /lib
-
+/Wolf/bin
+/Wolf/lib
+/Dwango/lib
+/Dwango/bin
 # Cmake
 CMakeCache.txt
 Makefile
