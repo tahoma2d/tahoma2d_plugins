@@ -1,4 +1,4 @@
-Tahoma2D  and OpenToonz Plugin
+Tahoma2D  and OpenToonz Plugins
 =================
 
 This repository contains example plugins for developers. 
