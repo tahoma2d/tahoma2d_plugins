@@ -7,7 +7,8 @@
 #define TOONZ_EXPORT __declspec(dllexport)
 #define TOONZ_PACK
 #else
-#define TOONZ_EXPORT
+#define TOONZ_EXPORT __attribute__((visibility("default")))
+//#define TOONZ_EXPORT
 #define TOONZ_PACK __attribute__((packed))
 #endif
 

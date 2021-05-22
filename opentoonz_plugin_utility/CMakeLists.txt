@@ -22,6 +22,10 @@ if(APPLE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -stdlib=libc++")
 endif(APPLE)
 
+if(UNIX)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fPIC -fvisibility=hidden")
+endif(UNIX)
+
 find_package(OpenCV REQUIRED)
 set(LIBS ${OpenCV_LIBS})
 

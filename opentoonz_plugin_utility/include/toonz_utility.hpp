@@ -26,7 +26,8 @@
 //	Visual Studio is not supported __restrict for reference
 #define RESTRICT
 #else
-#define EXPORT
+#define EXPORT __attribute__((visibility("default")))
+//#define EXPORT
 #define RESTRICT __restrict
 #endif
 
@@ -44,7 +45,8 @@
 #define DEBUG_PRINT(MSG)     \
   do {                       \
     std::ostringstream out;  \
-    out << MSG;              \
+    out << "[" << tnzu::plugin_info()->name << " ("             \
+        << std::this_thread::get_id() << ")]: " << MSG ; \
     puts(out.str().c_str()); \
 } while (0)
 #endif
