@@ -5,6 +5,7 @@
 /Wolf/lib
 /Dwango/lib
 /Dwango/bin
+build
 # Cmake
 CMakeCache.txt
 Makefile
