@@ -1,0 +1,4 @@
+Install as follows:
+
+- Copy the contents of "plugins" to "Tahoma2D/tahomastuff/plugins" (for portable versions) or "C:\Tahoma2D Stuff\plugins" (for installed versions)
+- Restart Tahoma2D

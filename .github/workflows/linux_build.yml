@@ -1,0 +1,58 @@
+name: Tahoma2D Linux Build
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  Linux:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        compiler: [ gcc, clang ]
+        include:
+          - compiler: gcc
+            cc: gcc
+            cxx: g++
+          - compiler: clang
+            cc: clang
+            cxx: clang++
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v2
+        with:
+          cmake-version: '3.31.6'
+      - name: Use cmake
+        run: cmake --version
+      - name: Install Dependencies
+        run: . ci-scripts/linux/tahoma-install.sh
+      - name: Build OpenCV
+        run: . ci-scripts/linux/tahoma-buildopencv.sh
+      - name: Build Tahoma2D Plugins
+        run: . ci-scripts/linux/tahoma-build.sh
+      - name: Create Package
+        run: |
+          . ci-scripts/linux/tahoma-buildpkg.sh
+          mv Tahoma2D_plugins_linux.zip Tahoma2D_plugins_linux_${{ matrix.compiler }}.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Tahoma2D_plugins_linux_${{ matrix.compiler }}.zip
+          path: Tahoma2D_plugins_linux_${{ matrix.compiler }}.zip
+      - name: Get Nightly Release Date
+        if: ${{ github.repository_owner == 'tahoma2d' && github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        run: |
+          echo "NIGHTLYDATE=$(date '+%Y-%m-%d')" >> $GITHUB_ENV
+          echo "NIGHTLYDATETIME=$(date '+%Y-%m-%d %H:%M:%S %Z')" >> $GITHUB_ENV
+      - name: Update Latest Nightly Release
+        if: ${{ github.repository_owner == 'tahoma2d' && github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          artifactErrorsFailBuild: false
+          artifacts: Tahoma2D_plugins_linux_${{ matrix.compiler }}.zip
+          artifactContentType: "raw"
+          body: ${{ github.event.head_commit.message }}
+          name: Latest Nightly ${{ env.NIGHTLYDATE }}
+          prerelease: true
+          replacesArtifacts: true
+          tag: nightly
+          token: ${{ secrets.GITHUB_TOKEN }}
