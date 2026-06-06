@@ -35,20 +35,12 @@ do
   install_name_tool -delete_rpath opencv_video $X
   install_name_tool -delete_rpath opencv_videoio $X
   
-  install_name_tool -change /usr/local/lib/libopencv_calib3d.4.5.dylib @executable_path/../Frameworks/libopencv_calib3d.4.5.dylib $X
-  install_name_tool -change /usr/local/lib/libopencv_core.4.5.dylib @executable_path/../Frameworks/libopencv_core.4.5.dylib $X
-  install_name_tool -change /usr/local/lib/libopencv_features2d.4.5.dylib @executable_path/../Frameworks/libopencv_features2d.4.5.dylib $X
-  install_name_tool -change /usr/local/lib/libopencv_flann.4.5.dylib @executable_path/../Frameworks/libopencv_flann.4.5.dylib $X
-  install_name_tool -change /usr/local/lib/libopencv_gapi.4.5.dylib @executable_path/../Frameworks/libopencv_gapi.4.5.dylib $X
-  install_name_tool -change /usr/local/lib/libopencv_highgui.4.5.dylib @executable_path/../Frameworks/libopencv_highgui.4.5.dylib $X
-  install_name_tool -change /usr/local/lib/libopencv_imgcodecs.4.5.dylib @executable_path/../Frameworks/libopencv_imgcodecs.4.5.dylib $X
-  install_name_tool -change /usr/local/lib/libopencv_imgproc.4.5.dylib @executable_path/../Frameworks/libopencv_imgproc.4.5.dylib $X
-  install_name_tool -change /usr/local/lib/libopencv_ml.4.5.dylib @executable_path/../Frameworks/libopencv_ml.4.5.dylib $X
-  install_name_tool -change /usr/local/lib/libopencv_objdetect.4.5.dylib @executable_path/../Frameworks/libopencv_objdetect.4.5.dylib $X
-  install_name_tool -change /usr/local/lib/libopencv_photo.4.5.dylib @executable_path/../Frameworks/libopencv_photo.4.5.dylib $X
-  install_name_tool -change /usr/local/lib/libopencv_stitching.4.5.dylib @executable_path/../Frameworks/libopencv_stitching.4.5.dylib $X
-  install_name_tool -change /usr/local/lib/libopencv_video.4.5.dylib @executable_path/../Frameworks/libopencv_video.4.5.dylib $X
-  install_name_tool -change /usr/local/lib/libopencv_videoio.4.5.dylib @executable_path/../Frameworks/libopencv_videoio.4.5.dylib $X
+  for Z in `otool -L $X | grep libopencv | sed -e"s/	//" -e"s/ .*$//"`
+  do
+     W="@executable_path/../Frameworks/"$(basename $Z)
+     echo "   Replacing $Z with $W"
+     install_name_tool -change $Z $W $X
+  done
 done
 
 cp ../LICENSE.txt .
