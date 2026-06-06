@@ -14,7 +14,7 @@ cp ../Dwango/lib/*.plugin plugins
 cp ../Wolf/lib/*.plugin plugins
 
 # Change library paths to look in Tahoma2D's framework
-for X in `ls *.plugin`
+for X in `ls plugins/*.plugin`
 do
   Y=`basename $X`
   echo ">>> Fixing lib paths for $X"
